@@ -44,15 +44,15 @@ const LargeNav = () => {
     },
   ];
   return (
-    <div className="w-full h-full relative">
-      <Link to="/" className="mb-10 px-2 lg:block md:hidden sm:hidden hidden ">
+    <div className="w-full h-full relative ">
+      <Link to="/" className="mb-10 px-2 lg:block md:hidden sm:hidden hidden">
         <img
           src={InstagramLogo}
           alt="instagram logo"
           className="img w-28 h-auto"
         ></img>
       </Link>
-      <Link to="/" className="mb-10 px-2 lg:hidden md:block sm:block block ">
+      <Link to="/" className="mb-10 px-2 lg:hidden md:block sm:block block">
         <img
           src={InstagramIcon}
           alt="instagram logo"
@@ -70,7 +70,7 @@ const LargeNav = () => {
             alt="Home icon"
             className="w-6 h-6 object-contain group-hover:scale-105 ease-out duration-300"
           />
-          <p className="text-base font-semibold text-white lg:block md:hidden sm:hidden ">
+          <p className="text-base font-semibold text-white lg:block md:hidden sm:hidden">
             Home
           </p>
         </Link>
