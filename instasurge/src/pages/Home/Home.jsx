@@ -1,5 +1,7 @@
+import { Route, Routes } from "react-router-dom"
 import LargeNav from "../../components/LargeNav/LargeNav"
 import MobileNav from "../../components/MobileNav/MobileNav"
+import Feed from "../Feed/Feed"
 
 const Home = () => {
   return (
@@ -13,7 +15,11 @@ const Home = () => {
             <div className="w-full h-auto py-1 px-3 border-t border-t-[#1d1d1d] fixed bottom-0 left-0 lg:hidden md:hidden sm:block block bg-black z-50">
                 <MobileNav/>
             </div>
-            {/*Feed and profile */}
+            {/*Feed and profile routing section*/}
+            <Routes>
+                <Route exact path="/" element={<Feed/>}/>
+            </Routes>
+            
         </div>
     </>
   )
