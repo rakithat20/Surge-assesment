@@ -1,7 +1,7 @@
+import Feedcard from "../../components/FeedCard/Feedcard.jsx";
+import RightNav from "../../components/RightNav/RightNav";
 import Stories from "../../components/Stories/Stories";
 import TopNav from "../../components/TopNav/TopNav";
-import Feedcard from "./FeedCard/Feedcard";
-
 const Feed = () => {
   return (
     <div className="lg:w-[83%] md:w-[83%] sm:w-full w-full min-h-screen lg:py-7 md:py-7 sm:py-4 py-3 px-3 flex items-start gap-x-20">
@@ -21,7 +21,9 @@ const Feed = () => {
       </div>
 
       {/*Recomended user sec*/}
-      <div className="w- h-auto lg:block md:hidden sm-hidden hidden"></div>
+      <div className="w- h-auto lg:block md:hidden sm:hidden hidden">
+        <RightNav />
+      </div>
     </div>
   );
 };

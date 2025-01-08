@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import LargeNav from "../../components/LargeNav/LargeNav";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import Feed from "../Feed/Feed";
-
 const Home = () => {
   return (
     <>

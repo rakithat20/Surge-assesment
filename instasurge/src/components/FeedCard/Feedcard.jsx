@@ -1,10 +1,10 @@
 import instagramFeed from "../FeedData/FeedData";
 import { Link } from "react-router-dom";
-import Ellipse from "../../../assets/Icons/Ellipse/Ellipse.jsx";
-import Like from "../../../assets/Icons/Like/Like.jsx";
-import Comment from "../../../assets/Icons/Comment/Comment.jsx";
-import Share from "../../../assets/Icons/Share/Share.jsx";
-import Save from "../../../assets/Icons/Save/Save.jsx";
+import Ellipse from "../../assets/Icons/Ellipse/Ellipse.jsx";
+import Like from "../../assets/Icons/Like/Like.jsx";
+import Comment from "../../assets/Icons/Comment/Comment.jsx";
+import Share from "../../assets/Icons/Share/Share.jsx";
+import Save from "../../assets/Icons/Save/Save.jsx";
 
 const Feedcard = () => {
   return (
