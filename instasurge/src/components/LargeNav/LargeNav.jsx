@@ -107,6 +107,12 @@ const LargeNav = () => {
             Profile
           </p>
         </Link>
+        <Link
+          className="w=full h-auto flex items-center gap-x-4 p-3 bg-transparent hover:bg-red-500 rounded-md
+                ease-out duration-500"
+        >
+          <p className="text-white">Log Out</p>
+        </Link>
       </div>
     </div>
   );

@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import LargeNav from "../../components/LargeNav/LargeNav";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import Feed from "../Feed/Feed";
+import Main from "../Profile/Main";
+import SinglePost from "../SinglePost/SinglePost";
 const Home = () => {
   return (
     <>
@@ -17,6 +19,8 @@ const Home = () => {
         {/*Feed and profile routing section*/}
         <Routes>
           <Route exact path="/" element={<Feed />} />
+          <Route exact path="/profile" element={<Main />} />
+          <Route path="/post/:postId" element={<SinglePost />} />
         </Routes>
       </div>
     </>
