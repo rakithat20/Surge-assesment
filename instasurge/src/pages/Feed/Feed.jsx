@@ -1,4 +1,4 @@
-import Feedcard from "../../components/FeedCard/Feedcard.jsx";
+import Feedcard from "../../components/Feed/Feed.jsx";
 import RightNav from "../../components/RightNav/RightNav";
 import Stories from "../../components/Stories/Stories";
 import TopNav from "../../components/TopNav/TopNav";
