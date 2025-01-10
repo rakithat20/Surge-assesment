@@ -1,7 +1,6 @@
 import db from "../config/db.config.js";
 import bcrypt from "bcrypt";
 const saltRounds = 10;
-db.connect();
 
 class UserModel {
   async create({ email, password, username }) {
@@ -37,13 +36,14 @@ class UserModel {
     return result.rows[0];
   }
 
-  async findById(id) {
+  async findByUsername(username) {
     const query = `
-          SELECT * FROM users WHERE id = $1;
+          SELECT * FROM users WHERE username = $1;
         `;
 
     try {
-      const result = await db.query(query, [id]);
+      const result = await db.query(query, [username]);
+      return result.rows[0];
     } catch (error) {
       throw new Error("User Not found");
     }
