@@ -1,6 +1,6 @@
 import Feedcard from "../../components/Feed/Feed.jsx";
 import RightNav from "../../components/RightNav/RightNav";
-import Stories from "../../components/Stories/Stories";
+// import Stories from "../../components/Stories/Stories";
 import TopNav from "../../components/TopNav/TopNav";
 const Feed = () => {
   return (
@@ -10,7 +10,7 @@ const Feed = () => {
         {/*top nav bar for small screen */}
         <TopNav />
         {/*Story section*/}
-        <Stories />
+        {/* <Stories /> */}
         {/*Feed section*/}
 
         <div className="w-full h-auto flex items-center justify-center mt-6">
