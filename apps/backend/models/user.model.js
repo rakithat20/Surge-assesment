@@ -3,17 +3,22 @@ import bcrypt from "bcrypt";
 const saltRounds = 10;
 
 class UserModel {
-  async create({ email, password, username }) {
+  async create({ email, password, username, fullName }) {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     const query = `
-          INSERT INTO users (email, password_hash, username)
-          VALUES ($1, $2, $3)
-          RETURNING id, email, username, created_at;
+          INSERT INTO users (email, password_hash, username,full_name)
+          VALUES ($1, $2, $3,$4)
+          RETURNING id, email, username,full_name, created_at;
         `;
 
     try {
-      const { rows } = await db.query(query, [email, hashedPassword, username]);
+      const { rows } = await db.query(query, [
+        email,
+        hashedPassword,
+        username,
+        fullName,
+      ]);
       return rows[0];
     } catch (error) {
       if (error.code === "23505") {
@@ -52,7 +57,8 @@ class UserModel {
     return bcrypt.compare(password, hashedPassword);
   }
 
-  async updateProfile(userId, { username, bio, avatar_url }) {
+  async updateProfile(id, { username, bio, avatar_url }) {
+    console.log(avatar_url);
     const query = `
       UPDATE users 
       SET 
@@ -65,8 +71,8 @@ class UserModel {
     `;
 
     try {
-      const values = [userId, username, bio, avatar_url];
-      const { rows } = await pool.query(query, values);
+      const values = [id, username, bio, avatar_url];
+      const { rows } = await db.query(query, values);
       return rows[0];
     } catch (error) {
       throw new Error("User Not found");

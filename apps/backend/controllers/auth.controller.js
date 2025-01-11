@@ -44,15 +44,20 @@ export const loginUser = async (req, res) => {
 
 export const registerUser = async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, fullName } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !email || !password || !fullName) {
       return res
         .status(400)
-        .json({ message: "Email, Username & Password required" });
+        .json({ message: "Email, Username fullname & Password required" });
     }
 
-    const user = await userModel.create({ email, password, username });
+    const user = await userModel.create({
+      email,
+      password,
+      username,
+      fullName,
+    });
     res.status(200).json(user);
   } catch (error) {
     res.status(406).json({ error: error.message });
