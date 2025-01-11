@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import session from "express-session";
 import passport from "passport";
+import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
@@ -10,7 +11,11 @@ import { configurePassport } from "./config/auth.config.js";
 
 dotenv.config({ path: "../../.env" });
 const app = express();
-const port = process.env.PORT;
+const port = process.env.BACKEND_PORT;
+const corsOptions = {
+  origin: "http://localhost:5172", // Replace with your frontend URL
+  credentials: true, // Allow cookies to be sent with the request
+};
 
 app.use(express.json());
 
@@ -28,6 +33,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors(corsOptions));
 // Initialize passport
 configurePassport();
 
