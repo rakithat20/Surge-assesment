@@ -21,11 +21,6 @@ export const updateProfile = async (req, res) => {
       bio,
       avatar_url,
     });
-    fs.unlink(avatar.path, (err) => {
-      if (err) {
-        console.error("Error deleting file:", err);
-      }
-    });
     res.json({
       message: "Profile updated successfully",
       avatarUrl: uploadResult.secure_url,
