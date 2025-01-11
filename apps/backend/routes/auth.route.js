@@ -1,9 +1,22 @@
+// routes/auth.routes.js
 import express from "express";
-import { loginUser, registerUser } from "../controllers/auth.controller.js";
+import * as authController from "../controllers/auth.controller.js";
+import {
+  googleAuthMiddleware,
+  googleCallbackMiddleware,
+} from "../middleware/auth.middleware.js";
 
-const Router = express.Router();
+const router = express.Router();
 
-Router.post("/login", loginUser);
-Router.post("/register", registerUser);
+router.post("/login", authController.loginUser);
+router.post("/register", authController.registerUser);
+router.get("/google", googleAuthMiddleware);
+router.get(
+  "/google/callback",
+  googleCallbackMiddleware,
+  authController.googleCallback
+);
+router.post("/logout", authController.logout);
+router.get("/status", authController.checkAuthStatus);
 
-export default Router;
+export default router;

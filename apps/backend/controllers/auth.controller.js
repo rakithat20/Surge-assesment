@@ -1,3 +1,4 @@
+// controllers/auth.controller.js
 import UserModel from "../models/user.model.js";
 
 const userModel = new UserModel();
@@ -16,7 +17,7 @@ export const loginUser = async (req, res) => {
     if (email) {
       user = await userModel.findByEmail(email);
     } else if (username) {
-      user = await userModel.findByUsername(username); // Assuming this method exists
+      user = await userModel.findByUsername(username);
     }
 
     if (!user || !user.password_hash) {
@@ -33,9 +34,13 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Bad credentials" });
     }
 
-    // Remove sensitive data before responding
     delete user.password_hash;
-    res.status(200).json(user);
+    req.login(user, (err) => {
+      if (err) {
+        return res.status(500).json({ message: "Error logging in" });
+      }
+      res.status(200).json(user);
+    });
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
@@ -58,8 +63,40 @@ export const registerUser = async (req, res) => {
       username,
       fullName,
     });
-    res.status(200).json(user);
+
+    req.login(user, (err) => {
+      if (err) {
+        return res.status(500).json({ message: "Error logging in" });
+      }
+      res.status(200).json(user);
+    });
   } catch (error) {
     res.status(406).json({ error: error.message });
+  }
+};
+
+export const googleCallback = (req, res) => {
+  if (req.user) {
+    return res.redirect("/");
+  }
+  res.status(401).json({ message: "Authentication failed" });
+};
+
+export const logout = (req, res) => {
+  req.logout(() => {
+    res.status(200).json({ message: "Logged out successfully" });
+  });
+};
+
+export const checkAuthStatus = (req, res) => {
+  if (req.isAuthenticated()) {
+    res.status(200).json({
+      authenticated: true,
+      user: req.user,
+    });
+  } else {
+    res.status(401).json({
+      authenticated: false,
+    });
   }
 };

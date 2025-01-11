@@ -6,6 +6,7 @@ import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import db from "./config/db.config.js";
+import { configurePassport } from "./config/auth.config.js";
 
 dotenv.config({ path: "../../.env" });
 const app = express();
@@ -17,13 +18,18 @@ app.use(
   session({
     secret: "your-secret-key",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // Set to true in production
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
   })
 );
 
-// Initialize passport
 app.use(passport.initialize());
 app.use(passport.session());
+// Initialize passport
+configurePassport();
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
