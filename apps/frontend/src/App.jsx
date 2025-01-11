@@ -1,16 +1,24 @@
-import './App.css'
-import { BrowserRouter as Router  } from 'react-router-dom'
-import Home from './pages/Home/Home'
+import "./App.css";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import Home from "./pages/Home/Home";
+import Login from "./pages/Login/Login";
+import SignUp from "./pages/Signup/SignUp";
+import { AuthProvider } from "./contexts/Authcontext";
 
 function App() {
-
   return (
-    <Router>
-      <div className='w-full bg-black min-h-screen'>
-        <Home/>
-      </div>
-    </Router>
-  )
+    <AuthProvider>
+      <Router>
+        <div className="w-full bg-black min-h-screen">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<SignUp />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;
