@@ -77,7 +77,7 @@ export const registerUser = async (req, res) => {
 
 export const googleCallback = (req, res) => {
   if (req.user) {
-    return res.redirect("/");
+    return res.redirect("http://localhost");
   }
   res.status(401).json({ message: "Authentication failed" });
 };
