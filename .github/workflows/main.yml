@@ -53,7 +53,7 @@ jobs:
       - name: Deploy to DigitalOcean Droplet
         run: |
           ssh -o StrictHostKeyChecking=no -i ${{ secrets.DIGITALOCEAN_SSH_KEY }} root@167.71.203.66 << 'EOF'
-          cd /path/to/your/app &&
+          cd Surge-assesment &&
           git pull origin main &&
           docker-compose -f docker-compose.yml down &&
           docker-compose -f docker-compose.yml up -d
