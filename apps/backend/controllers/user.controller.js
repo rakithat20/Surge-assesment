@@ -85,26 +85,14 @@ export const searchUser = async (req, res) => {
     res.sendStatus(500);
   }
 };
-export const followrUser = async (req, res) => {
+export const toggleFollow = async (req, res) => {
   try {
     const { username } = req.body;
     if (!username) {
       res.status(401).json({ message: "username required" });
     }
-    const result = await userModel.followUser(username, req.user.id);
-  } catch (error) {
-    console.log(error);
-    res.sendStatus(500);
-  }
-};
-export const UnfollowrUser = async (req, res) => {
-  try {
-    const { username } = req.body;
-    console.log(req.user.id);
-    if (!username) {
-      res.status(401).json({ message: "username required" });
-    }
-    const result = await userModel.unfollowUser(username, req.user.id);
+    const result = await userModel.toggleFollow(username, req.user.id);
+    res.status(200).json(result);
   } catch (error) {
     console.log(error);
     res.sendStatus(500);

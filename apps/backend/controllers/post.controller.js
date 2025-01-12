@@ -6,7 +6,7 @@ const postModel = new PostModel();
 // Get all posts
 export const getAllPosts = async (req, res) => {
   try {
-    const posts = await postModel.getAllPosts();
+    const posts = await postModel.getAllPosts(req.user.id);
     res.json(posts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching posts" });
@@ -16,7 +16,7 @@ export const getAllPosts = async (req, res) => {
 export const getPost = async (req, res) => {
   try {
     const { id } = req.params;
-    const post = await postModel.getPost(id);
+    const post = await postModel.getPost(id, req.user.id);
     res.json(post);
   } catch (error) {
     res.status(500).json({ message: "Error fetching posts" });

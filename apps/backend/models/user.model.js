@@ -182,48 +182,57 @@ class UserModel {
       throw new Error("Posts not found");
     }
   }
-  async followUser(followedUsername, selfUserid) {
-    const query = `
+
+  async toggleFollow(targetUsername, selfUserId) {
+    const checkFollowQuery = `
+      SELECT id 
+      FROM followers 
+      WHERE follower_id = $1 
+        AND following_id = (SELECT id FROM users WHERE username = $2);
+    `;
+
+    const followQuery = `
       INSERT INTO followers (follower_id, following_id, created_at)
-      SELECT $2, id, CURRENT_TIMESTAMP
+      SELECT $1, id, CURRENT_TIMESTAMP
       FROM users
-      WHERE username = $1
+      WHERE username = $2
       RETURNING id AS follow_id, follower_id, following_id, created_at;
     `;
-    try {
-      const result = await db.query(query, [followedUsername, selfUserid]);
 
-      // Check if a row was actually returned
-      if (!result.rows[0]) {
-        throw new Error(
-          "Follow operation succeeded, but no data was returned."
-        );
+    const unfollowQuery = `
+      DELETE FROM followers
+      WHERE follower_id = $1 
+        AND following_id = (SELECT id FROM users WHERE username = $2)
+      RETURNING id AS follow_id, follower_id, following_id, created_at;
+    `;
+
+    try {
+      // Check if the user is already following the target
+      const checkResult = await db.query(checkFollowQuery, [
+        selfUserId,
+        targetUsername,
+      ]);
+
+      if (checkResult.rows.length > 0) {
+        // User is already following, so unfollow
+        const unfollowResult = await db.query(unfollowQuery, [
+          selfUserId,
+          targetUsername,
+        ]);
+        return { status: "unfollowed", ...unfollowResult.rows[0] };
+      } else {
+        // User is not following, so follow
+        const followResult = await db.query(followQuery, [
+          selfUserId,
+          targetUsername,
+        ]);
+        return { status: "followed", ...followResult.rows[0] };
       }
-
-      return result.rows[0];
     } catch (error) {
-      throw new Error("Follow Failed");
+      throw new Error("Error toggling follow status");
     }
   }
 
-  async unfollowUser(unfollowedUsername, selfUserid) {
-    const query = `
-  DELETE FROM followers
-  WHERE follower_id = $2
-  AND following_id = (
-    SELECT id
-    FROM users
-    WHERE username = $1
-  )
-  RETURNING id AS follow_id, follower_id, following_id, created_at;
-`;
-    try {
-      const result = await db.query(query, [unfollowedUsername, selfUserid]);
-      return result.rows[0];
-    } catch (error) {
-      throw new Error("Follow Failed");
-    }
-  }
   async findByGoogleId(googleId) {
     const query = `
       SELECT * FROM users WHERE google_id = $1;

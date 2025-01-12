@@ -5,8 +5,7 @@ import {
   viewUser,
   getUserPosts,
   searchUser,
-  followrUser,
-  UnfollowrUser,
+  toggleFollow,
 } from "../controllers/user.controller.js";
 import { upload } from "../middleware/multer.middleware.js";
 import { authenticate } from "../middleware/auth.middleware.js";
@@ -18,7 +17,6 @@ Router.get("/profile", authenticate, getUser);
 Router.get("/profile/:username", authenticate, viewUser);
 Router.get("/:username/posts", authenticate, getUserPosts);
 Router.get("/:searchquery", authenticate, searchUser);
-Router.post("/follow", authenticate, followrUser);
-Router.post("/unfollow", authenticate, UnfollowrUser);
+Router.post("/follow", authenticate, toggleFollow);
 
 export default Router;
