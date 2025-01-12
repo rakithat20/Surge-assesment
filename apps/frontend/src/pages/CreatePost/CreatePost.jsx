@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const CreatePost = () => {
   const [formData, setFormData] = useState({
@@ -28,7 +28,9 @@ const CreatePost = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log(isLoading);
+    setLoading(true);
+    console.log(isLoading);
     try {
       const formDataToSend = new FormData();
       formDataToSend.append("caption", formData.caption);
@@ -40,22 +42,18 @@ const CreatePost = () => {
         },
         withCredentials: true,
       });
-      setLoading(true);
-
+      console.log(res);
+      setLoading(false);
+      setFormData({ caption: "", image: null });
       if (res.status === 200) {
-        setLoading(false);
         setRedirectTo(`/post/${res.data.id}`);
+        window.location(redirectTo);
       }
     } catch (error) {
       console.error("Error creating post:", error);
       alert("Failed to create post. Please try again.");
     }
   };
-
-  if (redirectTo) {
-    return <Navigate to={redirectTo} />;
-  }
-
   return (
     <div className="w-full max-w-lg bg-black p-6 rounded-lg shadow-md text-white mt-40 border border-gray-300 lg:mr-96 mx-auto">
       <h2 className="text-xl font-medium mb-4">Create a New Post</h2>
@@ -93,8 +91,8 @@ const CreatePost = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full py-2 px-4 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all text-white font-medium"
-          disabled={!isLoading}
+          className="w-full py-2 px-4 bg-blue-600 rounded-lg hover:bg-blue-700 transition-all text-white font-medium disabled:bg-gray-600"
+          disabled={isLoading}
         >
           Create Post
         </button>

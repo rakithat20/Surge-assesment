@@ -6,6 +6,7 @@ import {
   createPost,
   toggleLike,
   getPost,
+  getFollowingPosts,
 } from "../controllers/post.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 

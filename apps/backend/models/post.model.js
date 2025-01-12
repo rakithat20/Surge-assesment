@@ -25,6 +25,44 @@ class PostModel {
     const { rows } = await db.query(query, [viewerId]);
     return rows;
   }
+  async getFollowingPosts(userId) {
+    const query = `
+      SELECT 
+        p.*, 
+        u.email AS user_email, 
+        u.avatar_url AS user_avatar_url, 
+        u.username AS user_username, 
+        COUNT(l.id) AS likes_count,
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 
+            FROM likes 
+            WHERE likes.post_id = p.id 
+              AND likes.user_id = $1
+          ) THEN TRUE 
+          ELSE FALSE 
+        END AS is_liked
+      FROM posts p
+      JOIN users u 
+        ON p.user_id = u.id
+      JOIN followers f 
+        ON f.following_id = u.id 
+        AND f.follower_id = $1
+      LEFT JOIN likes l 
+        ON p.id = l.post_id
+      GROUP BY 
+        p.id, u.email, u.avatar_url, u.username
+      ORDER BY 
+        p.created_at DESC; -- Fetch latest posts first
+    `;
+
+    try {
+      const { rows } = await db.query(query, [userId]);
+      return rows;
+    } catch (error) {
+      throw new Error("Error fetching feed");
+    }
+  }
 
   // Get post by id
   async getPost(id, viewerId) {
