@@ -7,24 +7,20 @@ const userModel = new UserModel();
 export const updateProfile = async (req, res) => {
   try {
     const { id, username, bio } = req.body;
-
     const avatar = req.file;
+    let uploadResult;
+    let avatar_url;
 
-    if (!avatar) {
-      return res.status(400).json({ message: "Avatar file is required." });
+    if (avatar) {
+      uploadResult = await uploadAvatar(avatar.path);
+      avatar_url = uploadResult.secure_url;
     }
-
-    const uploadResult = await uploadAvatar(avatar.path);
-    const avatar_url = uploadResult.secure_url;
-    await userModel.updateProfile(id, {
+    const result = await userModel.updateProfile(id, {
       username,
       bio,
       avatar_url,
     });
-    res.json({
-      message: "Profile updated successfully",
-      avatarUrl: uploadResult.secure_url,
-    });
+    res.json(result);
   } catch (error) {
     console.error(error);
     res

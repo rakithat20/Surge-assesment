@@ -7,6 +7,7 @@ import SinglePost from "../SinglePost/SinglePost";
 import { useAuth } from "../../hooks/auth.hook";
 import Search from "../Search/Search";
 import CreatePost from "../CreatePost/CreatePost";
+import EditPofile from "../EditProfile/EditPofile";
 const Home = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
@@ -36,6 +37,7 @@ const Home = () => {
           <Route exact path="/search" element={<Search />} />
           <Route path="/profile/:username" element={<Main />} />
           <Route path="create" element={<CreatePost />} />
+          <Route path="edit" element={<EditPofile />} />
         </Routes>
       </div>
     </>

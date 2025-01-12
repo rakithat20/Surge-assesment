@@ -280,7 +280,7 @@ WHERE u.username = $1;
     try {
       const values = [id, username, bio, avatar_url];
       const { rows } = await db.query(query, values);
-      return rows[0];
+      return rows;
     } catch (error) {
       throw new Error("User Not found");
     }

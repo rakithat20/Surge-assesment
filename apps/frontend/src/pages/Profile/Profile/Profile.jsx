@@ -64,9 +64,12 @@ const Profile = ({ userData }) => {
               <div className="flex items-center gap-x-2">
                 {/* Conditional rendering of button */}
                 {user.username === userData.username ? (
-                  <button className="bg-[#1d1d1d] rounded lg:px-4 py-1 text-base text-white font-medium hover:bg-[#2f2f2f] ease-out duration-150">
+                  <Link
+                    to="/edit"
+                    className="bg-[#1d1d1d] rounded lg:px-4 py-1 text-base text-white font-medium hover:bg-[#2f2f2f] ease-out duration-150"
+                  >
                     Edit Profile
-                  </button>
+                  </Link>
                 ) : (
                   <button
                     onClick={handleFollow}
