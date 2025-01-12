@@ -110,37 +110,27 @@ class UserModel {
   }
   async viewUser(username, viewerId) {
     const query = `
-      SELECT
-        u.id AS user_id,
-        u.username,
-        u.full_name,
-        u.bio,
-        u.avatar_url,
-        u.created_at AS user_created_at,
-        u.updated_at AS user_updated_at,
-        COUNT(DISTINCT f1.follower_id) AS total_followers,
-        COUNT(DISTINCT f2.following_id) AS total_following,
-        COUNT(p.id) AS total_posts,
-        COUNT(l.id) AS total_likes_on_posts,
-        EXISTS (
-          SELECT 1
-          FROM followers
-          WHERE follower_id = $2 AND following_id = u.id
-        ) AS is_following
-      FROM
-        users u
-      LEFT JOIN
-        followers f1 ON f1.following_id = u.id 
-      LEFT JOIN
-        followers f2 ON f2.follower_id = u.id 
-      LEFT JOIN
-        posts p ON p.user_id = u.id  
-      LEFT JOIN
-        likes l ON l.post_id = p.id  
-      WHERE
-        u.username = $1  
-      GROUP BY
-        u.id;
+     SELECT 
+    u.id AS user_id,
+    u.username,
+    u.full_name,
+    u.bio,
+    u.avatar_url,
+    u.created_at AS user_created_at,
+    u.updated_at AS user_updated_at,
+    (SELECT COUNT(*) FROM followers WHERE following_id = u.id) AS total_followers,
+    (SELECT COUNT(*) FROM followers WHERE follower_id = u.id) AS total_following,
+    (SELECT COUNT(*) FROM posts WHERE user_id = u.id) AS total_posts,
+    (SELECT COUNT(*) FROM likes l 
+     JOIN posts p ON p.id = l.post_id 
+     WHERE p.user_id = u.id) AS total_likes_on_posts,
+    EXISTS (
+        SELECT 1 
+        FROM followers 
+        WHERE follower_id = $2 AND following_id = u.id
+    ) AS is_following
+FROM users u
+WHERE u.username = $1;
     `;
     try {
       // Execute the query, passing the username and viewerId as parameters

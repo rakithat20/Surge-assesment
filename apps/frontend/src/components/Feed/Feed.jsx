@@ -8,7 +8,7 @@ const Feed = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/api/post/`, {
+        const response = await axios.get(`/api/post/following`, {
           withCredentials: true,
         });
         setPosts(response.data); // Assuming the API returns the posts in response.data

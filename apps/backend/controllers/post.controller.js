@@ -6,11 +6,6 @@ const postModel = new PostModel();
 // Get all posts
 export const getAllPosts = async (req, res) => {
   try {
-    const { filter } = req.query;
-    if (filter === "following") {
-      const posts = await postModel.getAllPosts(req.user.id);
-      res.json(posts);
-    }
     const posts = await postModel.getAllPosts(req.user.id);
     res.json(posts);
   } catch (error) {
@@ -65,9 +60,10 @@ export const toggleLike = async (req, res) => {
   }
 };
 
-export const getFollowingPosts = async (req, res) => {
+export const getFollowing = async (req, res) => {
   try {
-    const posts = await PostModel.getFollowingPosts(req.user.id);
+    const posts = await postModel.getFollowingPosts(req.user.id);
+    res.status(200).json(posts);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "Error fetching posts" });

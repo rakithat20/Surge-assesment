@@ -20,8 +20,8 @@ const SinglePost = ({ post }) => {
   const timeAgo = (time) => {
     const now = new Date();
     const past = new Date(time);
-    const diffInMs = now - past; // Difference in milliseconds
-    const diffInSeconds = Math.floor(diffInMs / 1000); // Difference in seconds
+    const diffInMs = now - past;
+    const diffInSeconds = Math.floor(diffInMs / 1000);
 
     if (diffInSeconds < 60) {
       return `${diffInSeconds}s ago`;
@@ -52,11 +52,14 @@ const SinglePost = ({ post }) => {
   };
 
   return (
-    <div className="w-full h-auto mb-6" key={post.id}>
+    <div className="w-full h-auto mb-8" key={post.id}>
       {/* Profile Picture, Username, and Time */}
       <div className="w-full h-auto flex justify-between items-center mb-2">
         <div className="flex items-center gap-x-2">
-          <Link className="flex items-center justify-center flex-col flex-shrink-0">
+          <Link
+            className="flex items-center justify-center flex-col flex-shrink-0"
+            to={`/profile/${post.user_username}`}
+          >
             <div className="w-10 h-10 rounded-full object-cover p-[2px] bg-gray-600">
               <img
                 src={post.user_avatar_url}
@@ -114,18 +117,6 @@ const SinglePost = ({ post }) => {
           </span>
         </div>
       </div>
-
-      {/* Comment Count */}
-      <div className="w-full h-auto flex items-center gap-x-1 mr-1">
-        <div className="w-full h-auto text-sm text-gray-200 font-thin">
-          <Link to="/" className="text-gray-400 font-normal my-2">
-            view all {post.commentCount} comments
-          </Link>
-        </div>
-      </div>
-      <p className="text-gray-500 text-sm font-normal">
-        {timeAgo(post.created_at)}
-      </p>
     </div>
   );
 };

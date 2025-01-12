@@ -11,8 +11,6 @@ const Main = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const { username } = useParams();
-  console.log(username);
-
   useEffect(() => {
     const fetchUserData = async () => {
       if (!username) return;
@@ -22,6 +20,7 @@ const Main = () => {
           withCredentials: true,
         });
         setUserData(res.data);
+        console.log(res.data);
       } catch (error) {
         console.error("Error fetching user data", error);
         setError(error.message);
