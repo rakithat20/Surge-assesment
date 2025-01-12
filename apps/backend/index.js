@@ -8,8 +8,10 @@ import userRoutes from "./routes/user.route.js";
 import postRoutes from "./routes/post.route.js";
 import db from "./config/db.config.js";
 import { configurePassport } from "./config/auth.config.js";
+import connectPgSimple from "connect-pg-simple";
 
 dotenv.config({ path: "../../.env" });
+
 const app = express();
 const port = process.env.BACKEND_PORT;
 const corsOptions = {
@@ -17,11 +19,18 @@ const corsOptions = {
   credentials: true, // Allow cookies to be sent with the request
 };
 
+// Initialize pg-simple store
+const PgSession = connectPgSimple(session);
+
 app.use(express.json());
 
 app.use(
   session({
-    secret: "your-secret-key",
+    store: new PgSession({
+      pool: db, // Reuse the existing db connection pool
+      tableName: "session", // Name of the table to store sessions
+    }),
+    secret: "your-secret-key", // Replace with a strong secret
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -34,6 +43,7 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(cors(corsOptions));
+
 // Initialize passport
 configurePassport();
 
@@ -44,12 +54,14 @@ app.use("/api/post", postRoutes);
 app.get("/health", (req, res) => {
   res.send({ status: "UP" });
 });
+
 try {
   db.connect();
-  console.log("DB connection succesfull ");
+  console.log("DB connection successful");
 } catch (error) {
-  console.error("DB Not connected ", error);
+  console.error("DB Not connected", error);
 }
+
 app.listen(port, () => {
-  console.log(`Server  listening on port ${port}`);
+  console.log(`Server listening on port ${port}`);
 });
