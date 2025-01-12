@@ -38,7 +38,7 @@ export const configurePassport = () => {
               googleId: profile.id,
             });
           } else if (!user.googleId) {
-            user = await userModel.updateOne(
+            user = await userModel.linkGoogleAccount(
               { email: profile.emails[0].value },
               { googleId: profile.id }
             );
