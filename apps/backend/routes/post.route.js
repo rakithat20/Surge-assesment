@@ -7,6 +7,7 @@ import {
   toggleLike,
   getPost,
   getFollowing,
+  deletePost,
 } from "../controllers/post.controller.js";
 import { authenticate } from "../middleware/auth.middleware.js";
 
@@ -17,5 +18,6 @@ router.get("/following", authenticate, getFollowing);
 router.post("/", upload.single("image"), authenticate, createPost);
 router.post("/:postId/like", authenticate, toggleLike);
 router.get("/:id", authenticate, getPost);
+router.delete("/:postId", authenticate, deletePost);
 
 export default router;

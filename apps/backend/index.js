@@ -9,21 +9,21 @@ import postRoutes from "./routes/post.route.js";
 import db from "./config/db.config.js";
 import { configurePassport } from "./config/auth.config.js";
 import connectPgSimple from "connect-pg-simple";
+import morgan from "morgan";
 
 dotenv.config({ path: "../../.env" });
 
 const app = express();
 const port = process.env.BACKEND_PORT;
 const corsOptions = {
-  origin: "http://localhost:5172", // Replace with your frontend URL
-  credentials: true, // Allow cookies to be sent with the request
+  origin: "http://localhost:5172",
+  credentials: true,
 };
 
-// Initialize pg-simple store
 const PgSession = connectPgSimple(session);
 
 app.use(express.json());
-
+app.use(morgan("dev"));
 app.use(
   session({
     store: new PgSession({
@@ -65,3 +65,5 @@ try {
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+export default app;

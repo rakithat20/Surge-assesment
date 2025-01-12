@@ -17,7 +17,7 @@ CREATE TABLE users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
+    password_hash VARCHAR(255),
     full_name VARCHAR(100),
     avatar_url VARCHAR(255) DEFAULT 'https://res.cloudinary.com/dqpmgz0a4/image/upload/f_auto,q_auto/v1/avatars/b71nwizs1qsfqbxttkxw',
     google_id VARCHAR(255),

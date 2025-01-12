@@ -1,7 +1,5 @@
 import SearchLogo from "../../../src/assets/navlogo/search.png";
-import ExploreLogo from "../../../src/assets/navlogo/explore.png";
 import HomeLogo from "../../../src/assets/navlogo/home.png";
-import NotificationsLogo from "../../../src/assets/navlogo/like.png";
 import CreateLogo from "../../../src/assets/navlogo/create.png";
 import InstagramLogo from "../../../src/assets/logo/instaaa.png";
 import InstagramIcon from "../../../src/assets/logo/instaa.png";
@@ -21,16 +19,7 @@ const LargeNav = () => {
       link: "/search",
       icon: SearchLogo,
     },
-    {
-      name: "Explore",
-      link: "/explore",
-      icon: ExploreLogo,
-    },
-    {
-      name: "Notifications",
-      link: "/notifications",
-      icon: NotificationsLogo,
-    },
+
     {
       name: "Create",
       link: "/create",

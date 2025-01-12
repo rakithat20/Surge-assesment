@@ -11,11 +11,15 @@ const router = express.Router();
 router.post("/login", authController.loginUser);
 router.post("/register", authController.registerUser);
 router.get("/google", googleAuthMiddleware);
-router.get(
-  "/google/callback",
-  googleCallbackMiddleware,
-  authController.googleCallback
-);
+
+router.get("/google/callback", googleCallbackMiddleware, (req, res) => {
+  if (req.user) {
+    res.redirect("/");
+  } else {
+    res.redirect("/login");
+  }
+});
+
 router.post("/logout", authController.logout);
 router.get("/status", authController.checkAuthStatus);
 

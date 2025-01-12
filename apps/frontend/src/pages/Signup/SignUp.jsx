@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/logo/instaaa.png";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -14,7 +15,9 @@ const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  const handleGoogleSignIn = () => {
+    window.location.href = "/api/auth/google";
+  };
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData((prev) => ({
@@ -177,7 +180,15 @@ const SignUp = () => {
             {isLoading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
-
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full bg-black py-2 mt-4 rounded-md border text-white hover:border-green-300 transition-colors flex gap-2 justify-center"
+        >
+          Sign in with{" "}
+          <span>
+            <FcGoogle className="py-1 h-7 w-auto" />{" "}
+          </span>
+        </button>
         <div className="mt-6 text-center">
           <span className="text-gray-400">Already have an account? </span>
           <Link to="/login" className="text-blue-500 hover:text-blue-400">

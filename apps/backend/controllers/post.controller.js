@@ -69,3 +69,34 @@ export const getFollowing = async (req, res) => {
     res.status(500).json({ message: "Error fetching posts" });
   }
 };
+export const deletePost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    if (!postId) {
+      return res.status(400).json({ message: "Post ID is required" });
+    }
+
+    const usersPosts = await postModel.getPost(postId, req.user.id);
+    const post = usersPosts[0];
+
+    if (!post || post.user_id !== req.user.id) {
+      return res.status(404).json({
+        message: "Post not found or you are not authorized to delete it",
+      });
+    }
+
+    const result = await postModel.deletePost(postId);
+
+    if (result > 0) {
+      return res.status(200).json({ message: "Post deleted successfully" });
+    } else {
+      return res.status(500).json({ message: "Failed to delete post" });
+    }
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    return res
+      .status(500)
+      .json({ message: "Internal Server Error", error: error.message });
+  }
+};

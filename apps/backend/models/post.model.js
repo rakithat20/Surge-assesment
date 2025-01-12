@@ -2,6 +2,19 @@ import db from "../config/db.config.js";
 
 class PostModel {
   // Get all posts
+  async deletePost(postId) {
+    try {
+      const query = `DELETE FROM posts
+      WHERE id = $1
+      RETURNING *;
+`;
+      const result = await db.query(query, [postId]);
+      return result.rowCount;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
+  }
   async getAllPosts(viewerId) {
     const query = `
       SELECT p.*, 

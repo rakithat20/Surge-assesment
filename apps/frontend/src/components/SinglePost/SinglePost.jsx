@@ -3,12 +3,26 @@ import { Link } from "react-router-dom";
 import Ellipse from "../../assets/Icons/Ellipse/Ellipse.jsx";
 import Like from "../../assets/Icons/Like/Like.jsx";
 import Liked from "../../assets/Icons/Like/Liked.jsx";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { AuthContext } from "../../contexts/Authcontext.jsx";
 
 const SinglePost = ({ post }) => {
+  const { user, loading } = useContext(AuthContext);
   const [likes, updateLikes] = useState(parseInt(post.likes_count));
   const [isLiked, setIsLiked] = useState(post.is_liked);
+  const [showDelete, setShowDelete] = useState(false); // State to show delete button
+  const [canDelete, setCanDelete] = useState(false);
+
+  useEffect(() => {
+    if (user.id === post.user_id) {
+      setCanDelete(true);
+    }
+  }, [user.id, post.user_id]);
+
+  if (loading) {
+    return;
+  }
   const handleLike = async () => {
     const res = await axios.post(`/api/post/${post.id}/like`);
     if (res.status == 200) {
@@ -17,6 +31,15 @@ const SinglePost = ({ post }) => {
     }
     return;
   };
+
+  const handleDelete = async () => {
+    const res = await axios.delete(`/api/post/${post.id}`);
+    if (res.status === 200) {
+      alert("Post deleted successfully");
+      window.location("/");
+    }
+  };
+
   const timeAgo = (time) => {
     const now = new Date();
     const past = new Date(time);
@@ -74,7 +97,12 @@ const SinglePost = ({ post }) => {
             </p>
           </div>
         </div>
-        <Ellipse />
+        <button
+          onClick={() => setShowDelete(!showDelete)}
+          disabled={!canDelete}
+        >
+          <Ellipse />
+        </button>
       </div>
 
       {/* Post Image */}
@@ -117,6 +145,15 @@ const SinglePost = ({ post }) => {
           </span>
         </div>
       </div>
+
+      {/* Delete Button (only visible when showDelete is true) */}
+      {showDelete && (
+        <div className="mt-2">
+          <button onClick={handleDelete} className="text-red-500 font-medium">
+            Delete Post
+          </button>
+        </div>
+      )}
     </div>
   );
 };

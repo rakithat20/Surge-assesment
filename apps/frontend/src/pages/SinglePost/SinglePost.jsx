@@ -20,7 +20,6 @@ const SinglePost = () => {
   if (!post) {
     return <p className="text-white text-center">Post not found.</p>;
   }
-  console.log(post);
 
   return (
     <div className="w-full h-auto p-4">

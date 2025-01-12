@@ -1,5 +1,4 @@
 import SearchLogo from "../../../src/assets/navlogo/search.png";
-import ExploreLogo from "../../../src/assets/navlogo/explore.png";
 import HomeLogo from "../../../src/assets/navlogo/home.png";
 import CreateLogo from "../../../src/assets/navlogo/create.png";
 import { Link } from "react-router-dom";
@@ -21,11 +20,6 @@ const MobileNav = () => {
       name: "Create",
       link: "/create",
       icon: CreateLogo,
-    },
-    {
-      name: "Explore",
-      link: "/explore",
-      icon: ExploreLogo,
     },
   ];
 

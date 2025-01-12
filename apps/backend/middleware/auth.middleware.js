@@ -20,6 +20,7 @@ export const googleAuthMiddleware = passport.authenticate("google", {
 });
 
 export const googleCallbackMiddleware = passport.authenticate("google", {
-  failureRedirect: "/login",
+  failureRedirect: "http://localhost/login",
   failureMessage: true,
+  successRedirect: "/",
 });
