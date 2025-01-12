@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import InstagramLogo from "../../../src/assets/logo/instagram.png";
+import InstagramLogo from "../../../src/assets/logo/instaaa.png";
 import SearchLogo from "../../../src/assets/navlogo/search.png";
 
 const TopNav = () => {

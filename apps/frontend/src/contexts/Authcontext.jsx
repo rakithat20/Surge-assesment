@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     const checkAuth = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3000/api/auth/check",
+          "http://localhost:3000/api/auth/status",
           {
             withCredentials: true,
           }

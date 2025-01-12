@@ -12,6 +12,16 @@ export const getAllPosts = async (req, res) => {
     res.status(500).json({ message: "Error fetching posts" });
   }
 };
+// Get Post by id
+export const getPost = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const post = await postModel.getPost(id);
+    res.json(post);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching posts" });
+  }
+};
 
 // Create post
 export const createPost = async (req, res) => {

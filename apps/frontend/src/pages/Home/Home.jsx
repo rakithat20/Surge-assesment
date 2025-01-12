@@ -1,10 +1,21 @@
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import LargeNav from "../../components/LargeNav/LargeNav";
 import MobileNav from "../../components/MobileNav/MobileNav";
 import Feed from "../Feed/Feed";
 import Main from "../Profile/Main";
 import SinglePost from "../SinglePost/SinglePost";
+import { useAuth } from "../../hooks/auth.hook";
+import Search from "../Search/Search";
 const Home = () => {
+  const { user, loading } = useAuth();
+  const navigate = useNavigate();
+  if (loading) {
+    return <div className="text-white">Loading...</div>;
+  }
+
+  if (!user) {
+    navigate("/login");
+  }
   return (
     <>
       <div className="w-full h-auto flex items-start justify-between lg:gap-x-32 md:gap-x-16 sm:gap-x-8 gap-x-4 relative">
@@ -19,8 +30,10 @@ const Home = () => {
         {/*Feed and profile routing section*/}
         <Routes>
           <Route exact path="/" element={<Feed />} />
-          <Route exact path="/profile" element={<Main />} />
+          {/* <Route exact path="/profile" element={<Main />} /> */}
           <Route path="/post/:postId" element={<SinglePost />} />
+          <Route exact path="/search" element={<Search />} />
+          <Route path="/profile/:username" element={<Main />} />
         </Routes>
       </div>
     </>

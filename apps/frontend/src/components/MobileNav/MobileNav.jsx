@@ -1,10 +1,16 @@
 import SearchLogo from "../../../src/assets/navlogo/search.png";
-import ReelsLogo from "../../../src/assets/navlogo/reel.png";
+import ExploreLogo from "../../../src/assets/navlogo/explore.png";
 import HomeLogo from "../../../src/assets/navlogo/home.png";
 import CreateLogo from "../../../src/assets/navlogo/create.png";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/auth.hook";
+import Spinner from "../Spinner/Spinner";
 
 const MobileNav = () => {
+  const { user, loading } = useAuth();
+  if (loading) {
+    return <Spinner />;
+  }
   const sidebarItems = [
     {
       name: "Search",
@@ -17,9 +23,9 @@ const MobileNav = () => {
       icon: CreateLogo,
     },
     {
-      name: "Reels",
-      link: "/reels",
-      icon: ReelsLogo,
+      name: "Explore",
+      link: "/explore",
+      icon: ExploreLogo,
     },
   ];
 
@@ -52,14 +58,18 @@ const MobileNav = () => {
             />
           </Link>
         ))}
-         <Link 
-                to='/profile'
-                className="w=full h-auto flex items-center gap-x-4 p-3 bg-transparent rounded-md group">
-                   <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBBSFEB9Aq8f79o35ql5gbX4Y48oiWwBhYKg&s' alt="profile icon" className="w-6 h-6 rounded-full object-cover group-hover:scale-105 ease-out duration-300" />
-                  
-                  
-                   {/*need to fill from the backend*/}
-               </Link>
+        <Link
+          to={`profile/${user.username}`}
+          className="w=full h-auto flex items-center gap-x-4 p-3 bg-transparent rounded-md group"
+        >
+          <img
+            src={user.avatar_url}
+            alt="profile icon"
+            className="w-6 h-6 rounded-full object-cover group-hover:scale-105 ease-out duration-300"
+          />
+
+          {/*need to fill from the backend*/}
+        </Link>
       </div>
     </div>
   );

@@ -1,18 +1,29 @@
 import { useParams } from "react-router-dom";
-import instagramFeed from "../../components/FeedData/FeedData";
 import SinglePostCard from "../../components/SinglePost/SinglePost";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const SinglePost = () => {
   // Extract the postId from the URL
   const { postId } = useParams();
+  const [post, setPost] = useState(null);
 
-  // Find the specific post based on the postId
-  const post = instagramFeed.find((item) => item.id === parseInt(postId));
-
-  // Handle case where the post is not found
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `http://localhost:3000/api/post/${postId}`,
+        {
+          withCredentials: true,
+        }
+      );
+      setPost(response.data[0]);
+    }
+    fetchData();
+  }, [postId]);
   if (!post) {
     return <p className="text-white text-center">Post not found.</p>;
   }
+  console.log(post);
 
   return (
     <div className="w-full h-auto p-4">
