@@ -11,12 +11,9 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:3000/api/auth/status",
-          {
-            withCredentials: true,
-          }
-        );
+        const response = await axios.get("/api/auth/status", {
+          withCredentials: true,
+        });
         setUser(response.data.user);
         // eslint-disable-next-line no-unused-vars
       } catch (error) {

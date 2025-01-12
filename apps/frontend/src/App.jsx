@@ -7,6 +7,7 @@ import SinglePost from "./components/SinglePost/SinglePost";
 import Main from "./pages/Profile/Main";
 import Feed from "./components/Feed/Feed";
 import Search from "./pages/Search/Search";
+import CreatePost from "./pages/CreatePost/CreatePost";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
               <Route path="profile/:username" element={<Main />} />
               <Route path="post/:postId" element={<SinglePost />} />
               <Route path="search" element={<Search />} />
+              <Route path="create" element={<CreatePost />} />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<SignUp />} />

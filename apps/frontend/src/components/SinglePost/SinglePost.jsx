@@ -2,8 +2,21 @@
 import { Link } from "react-router-dom";
 import Ellipse from "../../assets/Icons/Ellipse/Ellipse.jsx";
 import Like from "../../assets/Icons/Like/Like.jsx";
+import Liked from "../../assets/Icons/Like/Liked.jsx";
+import { useState } from "react";
+import axios from "axios";
 
 const SinglePost = ({ post }) => {
+  const [likes, updateLikes] = useState(parseInt(post.likes_count));
+  const [isLiked, setIsLiked] = useState(post.is_liked);
+  const handleLike = async () => {
+    const res = await axios.post(`/api/post/${post.id}/like`);
+    if (res.status == 200) {
+      isLiked ? updateLikes(likes - 1) : updateLikes(likes + 1);
+      setIsLiked(!isLiked);
+    }
+    return;
+  };
   const timeAgo = (time) => {
     const now = new Date();
     const past = new Date(time);
@@ -72,8 +85,8 @@ const SinglePost = ({ post }) => {
 
       {/* Like, Comment, Share, Save */}
       <div className="w-full h-auto flex items-center justify-between text-white font-medium">
-        <div className="flex items-center gap-x-3">
-          <Like />
+        <div className="flex items-center gap-x-3 w-5" onClick={handleLike}>
+          {isLiked ? <Liked /> : <Like />}
         </div>
         <p> {post.user_username}</p>
         <p> {timeAgo(post.created_at)}</p>
@@ -84,7 +97,7 @@ const SinglePost = ({ post }) => {
         to="/"
         className="w-full h-auto flex items-center gap-x-2 text-base text-gray-200 font-medium my-2"
       >
-        {post.likes_count} likes
+        {likes} likes
       </Link>
 
       {/* Caption */}

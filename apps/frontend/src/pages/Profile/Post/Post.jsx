@@ -9,12 +9,9 @@ const Post = ({ username }) => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/user/${username}/posts`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`/api/user/${username}/posts`, {
+          withCredentials: true,
+        });
         setPosts(res.data); // Assuming the posts are in the 'data' field of the response
       } catch (error) {
         console.error("Error fetching posts:", error);

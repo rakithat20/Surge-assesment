@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import logo from "../../assets/logo/instaaa.png";
 import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -49,7 +50,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/login", // Change URL to match your login endpoint
+        "/api/auth/login",
         JSON.stringify(formData),
         {
           headers: {
@@ -63,7 +64,7 @@ const Login = () => {
         throw new Error("Login failed");
       }
 
-      navigate("/"); // Redirect to homepage or dashboard on success
+      navigate("/");
       console.log("Login successful!");
     } catch (error) {
       console.log(error);
@@ -74,6 +75,10 @@ const Login = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    window.location.href = "/api/auth/google";
   };
 
   return (
@@ -131,7 +136,17 @@ const Login = () => {
           </button>
         </form>
 
-        <div className="bottom-4 left-0 right-0 w-auto border-t border-white/30 flex items-center flex-col">
+        <button
+          onClick={handleGoogleSignIn}
+          className="w-full bg-black py-2 mt-4 rounded-md border text-white hover:border-green-300 transition-colors flex gap-2 justify-center"
+        >
+          Sign in with{" "}
+          <span>
+            <FcGoogle className="py-1 h-7 w-auto" />{" "}
+          </span>
+        </button>
+
+        <div className="bottom-4 left-0 right-0 w-auto border-t border-white/30 flex items-center flex-col mt-4">
           <span className="font-thin text-sm pb-3">
             or{" "}
             <Link className="text-blue-500 font-medium" to="/register">

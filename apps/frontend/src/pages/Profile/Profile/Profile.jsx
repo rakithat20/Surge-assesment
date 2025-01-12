@@ -8,52 +8,38 @@ import { useAuth } from "../../../hooks/auth.hook";
 
 const Profile = ({ userData }) => {
   const { user, loading } = useAuth();
-  const [isFollowing, setIsFollowing] = useState(userData.is_following); // Assuming `is_following` is provided in `userData`.
-
-  // Handle loading state
+  const [isFollowing, setIsFollowing] = useState(userData.is_following);
+  const [followers, setfollowers] = useState(
+    parseInt(userData.total_followers)
+  );
+  console.log(isFollowing);
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Redirect if not authenticated
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  // Ensure userData is provided
   if (!userData) {
     return <div>Error: No user data available</div>;
   }
 
-  // Handle follow/unfollow action
   const handleFollow = async () => {
     try {
-      if (isFollowing) {
-        // Unfollow API call
-        await axios.post(
-          `http://localhost:3000/api/user/unfollow`,
-          {
-            username: userData.username,
-          },
-          { withCredentials: true }
-        );
-      } else {
-        // Follow API call
-        await axios.post(
-          `http://localhost:3000/api/user/follow`,
-          {
-            username: userData.username,
-          },
-          { withCredentials: true }
-        );
-      }
-      setIsFollowing(!isFollowing); // Toggle follow state
-      window.location.reload();
-    } catch (error) {
-      console.error(
-        "Error updating follow status:",
-        error.response?.data || error.message
+      const res = await axios.post(
+        "/api/user/follow",
+        { username: userData.username },
+        {
+          withCredentials: true,
+        }
       );
+      if (res.status == 200) {
+        setIsFollowing(!isFollowing);
+        isFollowing ? setfollowers(followers - 1) : setfollowers(followers + 1);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -105,8 +91,7 @@ const Profile = ({ userData }) => {
               </div>
               <div className="flex items-center flex-col">
                 <h6 className="text-base text-gray-100 font-medium">
-                  {userData.total_followers}{" "}
-                  <span className="font-normal">followers</span>
+                  {followers} <span className="font-normal">followers</span>
                 </h6>
               </div>
               <div className="flex items-center flex-col">
@@ -148,9 +133,9 @@ Profile.propTypes = {
   userData: PropTypes.shape({
     avatar_url: PropTypes.string,
     username: PropTypes.string,
-    total_posts: PropTypes.number,
-    total_followers: PropTypes.number,
-    total_following: PropTypes.number,
+    total_posts: PropTypes.string,
+    total_followers: PropTypes.string,
+    total_following: PropTypes.string,
     full_name: PropTypes.string,
     bio: PropTypes.string,
     is_following: PropTypes.bool, // Added this prop

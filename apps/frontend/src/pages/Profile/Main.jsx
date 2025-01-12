@@ -18,12 +18,9 @@ const Main = () => {
       if (!username) return;
 
       try {
-        const res = await axios.get(
-          `http://localhost:3000/api/user/profile/${username}`,
-          {
-            withCredentials: true,
-          }
-        );
+        const res = await axios.get(`/api/user/profile/${username}`, {
+          withCredentials: true,
+        });
         setUserData(res.data);
       } catch (error) {
         console.error("Error fetching user data", error);

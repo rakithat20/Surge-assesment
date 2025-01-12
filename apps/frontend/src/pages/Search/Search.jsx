@@ -20,7 +20,7 @@ const Search = () => {
 
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/user/${encodeURIComponent(searchQuery)}`,
+        `/api/user/${encodeURIComponent(searchQuery)}`,
         {
           withCredentials: true,
         }

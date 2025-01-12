@@ -10,12 +10,9 @@ const SinglePost = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get(
-        `http://localhost:3000/api/post/${postId}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`/api/post/${postId}`, {
+        withCredentials: true,
+      });
       setPost(response.data[0]);
     }
     fetchData();

@@ -61,7 +61,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/api/auth/register",
+        "/api/auth/register",
         JSON.stringify(formData),
         {
           headers: {
