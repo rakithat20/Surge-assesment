@@ -4,6 +4,7 @@ services:
     build: 
       context: .
       dockerfile: ./apps/frontend/DOCKERFILE
+    image: frontend:latest
     ports:
       - "5172:80"
     depends_on:
@@ -13,6 +14,7 @@ services:
     build: 
       context: .
       dockerfile: ./apps/backend/DOCKERFILE
+    image: backend:latest
     ports:
       - "3000:3000"
     env_file:

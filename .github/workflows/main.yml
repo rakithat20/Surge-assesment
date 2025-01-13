@@ -48,8 +48,8 @@ jobs:
       - name: Build and Push Docker images
         run: |
           docker-compose -f docker-compose.yml build
-          docker tag frontend ${{ secrets.DOCKER_USERNAME }}/frontend:latest
-          docker tag backend ${{ secrets.DOCKER_USERNAME }}/backend:latest
+          docker tag frontend:latest ${{ secrets.DOCKER_USERNAME }}/frontend:latest
+          docker tag backend:latest ${{ secrets.DOCKER_USERNAME }}/backend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/frontend:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/backend:latest
 
