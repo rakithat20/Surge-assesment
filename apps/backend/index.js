@@ -9,6 +9,7 @@ import postRoutes from "./routes/post.route.js";
 import db from "./config/db.config.js";
 import { configurePassport } from "./config/auth.config.js";
 import connectPgSimple from "connect-pg-simple";
+import morgan from "morgan";
 
 dotenv.config({ path: "../../.env" });
 
@@ -22,6 +23,7 @@ const corsOptions = {
 const PgSession = connectPgSimple(session);
 
 app.use(express.json());
+app.use(morgan("dev"));
 app.use(
   session({
     store: new PgSession({
