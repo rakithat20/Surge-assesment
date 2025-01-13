@@ -24,6 +24,7 @@ const PgSession = connectPgSimple(session);
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(express.json({ limit: "500mb" }));
 app.use(
   session({
     store: new PgSession({
