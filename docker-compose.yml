@@ -6,7 +6,7 @@ services:
       dockerfile: ./apps/frontend/DOCKERFILE
     image: frontend:latest
     ports:
-      - "5172:80"
+      - "80:80"
     depends_on:
       - backend
 
